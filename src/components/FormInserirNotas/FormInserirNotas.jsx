@@ -5,7 +5,16 @@ export default class FormInserirNotas extends Component{
         super(props);
         this.titulo = "";
         this.mensagem = "";
+        this.categoria = this.props.categorias[0];
+        this.state = {categorias:[this.props.categorias.categorias]};
+        this._novasCategorias = this._novasCategorias.bind(this);
     }
+
+    componentDidMount() {this.props.categorias.inscrever(this._novasCategorias)}
+    componentWillUnmount() {this.props.categorias.desiscrever(this._novasCategorias);}
+
+
+    _novasCategorias(categorias){this.setState({...this.state,categorias});}
 
     _handleMudancaTitulo(evento){
         evento.stopPropagation();
@@ -17,10 +26,15 @@ export default class FormInserirNotas extends Component{
         this.mensagem = evento.target.value;
     }
 
+    _handleMudancaCategoria(evento){
+        evento.stopPropagation();
+        this.categoria = evento.target.value;
+    }
+
     _criarNovoCard(evento){
         evento.preventDefault();
         evento.stopPropagation();
-        this.props.criarNovoCard(this.titulo,this.mensagem);
+        this.props.criarNovoCard(this.titulo,this.mensagem,this.categoria);
     }
 
     render() {
@@ -31,6 +45,12 @@ export default class FormInserirNotas extends Component{
                 <textarea placeholder="escreva sua nota" rows={10} onInput={this._handleMudancaTextArea.bind(this)}></textarea>
                 <br/><br/>
                 <button type="submit">Insira sua nota</button>
+                <button type="reset" onClick={this.props.deletarTodasNotas}>Deletar todas as notas</button>
+                <select onChange={this._handleMudancaCategoria.bind(this)}>
+                    {this.state.categorias.map((categoria,index) => {
+                       return <option value={categoria} key={index}>{categoria}</option>
+                    })}
+                </select>
             </form>
         );
     }

@@ -1,9 +1,12 @@
 import React, {Component} from "react";
 import './style.css';
+import deletar from '../../assets/img/deletar.svg';
 
 export default class CardDeNotas extends Component{
-    _deletarPost(){
-        this.props.deletePost(this.props.titulo);
+
+    apagarPost(){
+        const index = this.props.id;
+        this.props.deletePost(index)
     }
 
     render() {
@@ -11,11 +14,12 @@ export default class CardDeNotas extends Component{
             <section>
                 <li className="CardDeNotas">
                     <header>
-                        <h3>{this.props.titulo}</h3>
+                        <h3 className="d-inline-block">{this.props.titulo}</h3>
+                     <img onClick={this.apagarPost.bind(this)} className="d-inline-block" src={deletar} alt="ícone deletar" title="ícone deletar"/>
                     </header>
+                    <p>Categoria: {this.props.categorias}</p>
                     <p>{this.props.mensagem}</p>
                 </li>
-                <button onClick={this._deletarPost.bind(this)}>deletar post</button>
                 <hr/>
             </section>
         );

@@ -3,3 +3,7 @@
     margin-bottom: 10px;
     list-style: none;
 }
+
+.d-inline-block{
+    display: inline-block;
+}

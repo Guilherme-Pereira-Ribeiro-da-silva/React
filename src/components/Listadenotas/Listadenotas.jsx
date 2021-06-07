@@ -3,20 +3,23 @@ import CardDeNotas from "../CardDeNotas";
 import './style.css';
 
 export default class Listadenotas extends Component{
-
-
-    deletarPost(titulo){
-        this.props.deletarCard(titulo);
+    constructor() {
+        super();
+        this.state = {notas: []};
     }
+
+    componentDidMount() {this.props.notas.inscrever(this._novasnotas.bind(this));}
+
+    _novasnotas(notas){this.setState({...this.state,notas});}
 
     //O construtor passando os props é criado por padrão
     render() {
         return (
             <ul className="Listadenotas">
-                {this.props.notas.map((nota,index) => {
+                {this.state.notas.map((nota,index) => {
                     return(
                         <div key={index}>
-                            <CardDeNotas titulo={nota.titulo} mensagem={nota.texto} id={index} deletePost={this.deletarPost.bind(this)}/>
+                            <CardDeNotas categorias={nota.categoria} titulo={nota.titulo} mensagem={nota.texto} id={index} deletePost={this.props.deletarCard}/>
                         </div>
                     );
                 })}
